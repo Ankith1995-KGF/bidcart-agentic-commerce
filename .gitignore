@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+
+.env
+.streamlit/secrets.toml
+
+bidcart_commerce.db
+bidcart_prices.db
+sd_muiq0ajrffmym646t.csv
+
+brightdata_test.py
+product_identity_backup.py
