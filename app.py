@@ -26,7 +26,6 @@ from payment_agent import (
 if "screen" not in st.session_state:
     st.session_state.screen = "search"
 
-show_search = st.session_state.screen == "search"
 # ---------------------------------------------------------
 # PAGE CONFIGURATION
 # ---------------------------------------------------------
@@ -193,6 +192,8 @@ st.markdown(
     .men-tile {
         background: linear-gradient(135deg, #dbeafe, #bfdbfe);
         color: #1d4ed8;
+    }
+
     .sports-tile {
         background: linear-gradient(135deg, #ffedd5, #fed7aa);
         color: #c2410c;
@@ -272,9 +273,9 @@ st.markdown(
 # ---------------------------------------------------------
 # BRAND
 # ---------------------------------------------------------
-
-st.markdown(
-    """
+if st.session_state.screen == "search":
+    st.markdown(
+        """
 <div class="bidcart-hero">
 <div class="bidcart-brand">🛒 BidCart</div>
 <div class="bidcart-tag">AGENTIC COMMERCE INTELLIGENCE</div>
@@ -292,145 +293,150 @@ st.markdown(
 <div class="category-tile home-tile">🏠 Home & Kitchen</div>
 <div class="category-tile beauty-tile">💄 Beauty & Personal Care</div>
 </div>
-    """,
-    unsafe_allow_html=True,
-)
-# ---------------------------------------------------------
-# COMMERCE SEARCH
-# ---------------------------------------------------------
-
-if st.session_state.screen == "results":
-    st.markdown(
-        """
-        <style>
-        div[data-testid="stVerticalBlock"]:has(
-            button[kind="primary"]
-        ) {
-            display: none;
-        }
-        </style>
         """,
         unsafe_allow_html=True,
     )
 
-st.subheader("What are you looking to buy?")
+    st.subheader("What are you looking to buy?")
 
-category_col, subcategory_col = st.columns(2)
+    category_col, subcategory_col = st.columns(2)
 
-with category_col:
-
-    category = st.selectbox(
-        "Product category",
-        list(PRODUCT_CATEGORIES.keys()),
-    )
-
-with subcategory_col:
-
-    subcategory = st.selectbox(
-        "Sub-category",
-        PRODUCT_CATEGORIES[category],
-    )
-
-product = st.text_input(
-    "Product",
-    placeholder=(
-        "e.g. Surf Excel Matic 2 kg, "
-        "Nike running shoes, Sony headphones..."
-    ),
-)
-
-city = st.text_input(
-    "Delivery city",
-    placeholder="e.g. Chennai, Bengaluru, Mumbai",
-)
-budget_col, retailer_col = st.columns([1, 2])
-
-with budget_col:
-    st.markdown("**Budget range (₹)**")
-
-    min_budget_col, max_budget_col = st.columns(2)
-
-    with min_budget_col:
-        min_budget = st.number_input(
-            "Minimum",
-            min_value=0,
-            step=100,
-            placeholder="e.g. 20000",
+    with category_col:
+        category = st.selectbox(
+            "Product category",
+            list(PRODUCT_CATEGORIES.keys()),
         )
 
-    with max_budget_col:
-        max_budget = st.number_input(
-            "Maximum",
-            min_value=0,
-            step=100,
-            placeholder="e.g. 30000",
+    with subcategory_col:
+        subcategory = st.selectbox(
+            "Sub-category",
+            PRODUCT_CATEGORIES[category],
         )
 
-with retailer_col:
-    st.markdown("**Retailers BidCart will evaluate**")
-
-    retailers = get_retailers(category)
-
-    retailer_styles = {
-    "Amazon": ("🟠", "#fff7ed", "#9a3412"),
-    "Flipkart": ("🟡", "#eff6ff", "#1d4ed8"),
-    "Croma": ("🟢", "#ecfdf5", "#047857"),
-    "Reliance Digital": ("🔵", "#eff6ff", "#1e40af"),
-    "Myntra": ("🩷", "#fdf2f8", "#be185d"),
-    "AJIO": ("⚫", "#f8fafc", "#111827"),
-    "Blinkit": ("🟡", "#fefce8", "#854d0e"),
-    "Zepto": ("🟣", "#faf5ff", "#7e22ce"),
-    "Swiggy Instamart": ("🟠", "#fff7ed", "#c2410c"),
-    "BigBasket": ("🟢", "#f0fdf4", "#15803d"),
-}
-
-retailer_badges = ""
-
-for retailer in retailers:
-    icon, bg, colour = retailer_styles.get(
-        retailer,
-        ("🛍️", "#f8fafc", "#334155"),
+    product = st.text_input(
+        "Product",
+        placeholder="e.g. Surf Excel Matic 2 kg, Nike running shoes, Sony headphones...",
     )
 
-    retailer_badges += (
-        f'<span class="retailer-badge" '
-        f'style="background:{bg}; color:{colour};">'
-        f'{icon} {retailer}</span>'
+    city = st.text_input(
+        "Delivery city",
+        placeholder="e.g. Chennai, Bengaluru, Mumbai",
     )
 
-st.markdown(
-    f'<div class="retailer-row">{retailer_badges}</div>',
-    unsafe_allow_html=True,
-)
+    budget_col, retailer_col = st.columns([1, 2])
 
-st.markdown("")
+    with budget_col:
+        st.markdown("**Budget range (₹)**")
+        min_budget_col, max_budget_col = st.columns(2)
 
-search = st.button(
-    "Find the Best Deal →",
-    type="primary",
-    use_container_width=True,
-)
-if search:
-    if not product.strip():
-        st.error("Enter the product you want BidCart to evaluate.")
-        st.stop()
+        with min_budget_col:
+            min_budget = st.number_input(
+                "Minimum",
+                min_value=0,
+                step=100,
+            )
 
-    if not city.strip():
-        st.error("Enter your delivery city.")
-        st.stop()
+        with max_budget_col:
+            max_budget = st.number_input(
+                "Maximum",
+                min_value=0,
+                step=100,
+            )
 
-    if max_budget > 0 and min_budget > max_budget:
-        st.error("Minimum budget cannot be higher than maximum budget.")
-        st.stop()
+    with retailer_col:
+        st.markdown("**Retailers BidCart will evaluate**")
+        retailers = get_retailers(category)
 
-    st.session_state.search_product = product
-    st.session_state.search_city = city
-    st.session_state.search_min_budget = min_budget
-    st.session_state.search_max_budget = max_budget
-    st.session_state.search_retailers = retailers
-    st.session_state.screen = "results"
+        retailer_styles = {
+            "Amazon": ("🟠", "#fff7ed", "#9a3412"),
+            "Flipkart": ("🟡", "#eff6ff", "#1d4ed8"),
+            "Croma": ("🟢", "#ecfdf5", "#047857"),
+            "Reliance Digital": ("🔵", "#eff6ff", "#1e40af"),
+            "Myntra": ("🩷", "#fdf2f8", "#be185d"),
+            "AJIO": ("⚫", "#f8fafc", "#111827"),
+            "Blinkit": ("🟡", "#fefce8", "#854d0e"),
+            "Zepto": ("🟣", "#faf5ff", "#7e22ce"),
+            "Swiggy Instamart": ("🟠", "#fff7ed", "#c2410c"),
+            "BigBasket": ("🟢", "#f0fdf4", "#15803b"),
+        }
 
-    st.rerun()
+        retailer_badges = ""
+        for retailer in retailers:
+            icon, bg, colour = retailer_styles.get(
+                retailer,
+                ("🛍️", "#f8fafc", "#334155"),
+            )
+            retailer_badges += (
+                f'<span class="retailer-badge" '
+                f'style="background:{bg}; color:{colour};">'
+                f'{icon} {retailer}</span>'
+            )
+
+        st.markdown(
+            f'<div class="retailer-row">{retailer_badges}</div>',
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("")
+
+    search = st.button(
+        "Find the Best Deal →",
+        type="primary",
+        use_container_width=True,
+    )
+
+    if search:
+        if not product.strip():
+            st.error("Enter the product you want BidCart to evaluate.")
+        elif not city.strip():
+            st.error("Enter your delivery city.")
+        elif max_budget > 0 and min_budget > max_budget:
+            st.error("Minimum budget cannot be higher than maximum budget.")
+        else:
+            st.session_state.search_product = product.strip()
+            st.session_state.search_city = city.strip()
+            st.session_state.search_min_budget = min_budget
+            st.session_state.search_max_budget = max_budget
+            st.session_state.search_retailers = retailers
+            st.session_state.screen = "results"
+            st.rerun()
+
+    st.divider()
+
+    st.subheader("What BidCart will evaluate")
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        with st.container(border=True):
+            st.markdown("### 📉 Price Intelligence")
+            st.write(
+                "Track validated price observations over time and identify "
+                "30-day lows, highs and how often the lowest price was observed."
+            )
+
+    with c2:
+        with st.container(border=True):
+            st.markdown("### ⭐ Customer Evidence")
+            st.write(
+                "Compare absolute positive-review evidence "
+                "instead of relying only on star ratings."
+            )
+
+    with c3:
+        with st.container(border=True):
+            st.markdown("### 💳 Payment Economics")
+            st.write(
+                "Resolve offer eligibility, discounts and "
+                "effective transaction cost before checkout."
+            )
+
+    st.caption(
+        "BidCart provides independent pre-purchase and "
+        "pre-authorization intelligence. Payments remain "
+        "with the merchant and payment network."
+    )
+
+
 if st.session_state.screen == "results":
     result_product = st.session_state.search_product
     result_city = st.session_state.search_city
@@ -650,50 +656,3 @@ if st.session_state.screen == "results":
             )
 
 
-st.divider()
-
-# ---------------------------------------------------------
-# PRODUCT CAPABILITIES
-# ---------------------------------------------------------
-
-st.subheader("What BidCart will evaluate")
-
-c1, c2, c3 = st.columns(3)
-
-with c1:
-
-    with st.container(border=True):
-
-        st.markdown("### 📉 Price Intelligence")
-
-        st.write(
-            "Track validated price observations over time and identify "
-            "30-day lows, highs and how often the lowest price was observed."
-        )
-with c2:
-
-    with st.container(border=True):
-
-        st.markdown("### ⭐ Customer Evidence")
-
-        st.write(
-            "Compare absolute positive-review evidence "
-            "instead of relying only on star ratings."
-        )
-
-with c3:
-
-    with st.container(border=True):
-
-        st.markdown("### 💳 Payment Economics")
-
-        st.write(
-            "Resolve offer eligibility, discounts and "
-            "effective transaction cost before checkout."
-        )
-
-st.caption(
-    "BidCart provides independent pre-purchase and "
-    "pre-authorization intelligence. Payments remain "
-    "with the merchant and payment network."
-)
