@@ -46,26 +46,25 @@ st.markdown(
     """
     <style>
 
+    /* ---------- BIDCART GLOBAL ---------- */
+
     .stApp {
         background:
-            radial-gradient(circle at 15% 0%,
-            rgba(99,102,241,0.10), transparent 30%),
-            radial-gradient(circle at 90% 10%,
-            rgba(14,165,233,0.08), transparent 28%),
-            #f8fafc;
+            radial-gradient(circle at 5% 0%,
+                rgba(16,185,129,0.10), transparent 25%),
+            radial-gradient(circle at 95% 5%,
+                rgba(37,99,235,0.10), transparent 28%),
+            linear-gradient(180deg, #ffffff 0%, #f8fafc 55%, #f1f5f9 100%);
+        color: #172033;
     }
 
     .block-container {
-        max-width: 1120px;
-        padding-top: 1.4rem;
-        padding-bottom: 4rem;
+        max-width: 1180px;
+        padding-top: 1.25rem;
+        padding-bottom: 5rem;
     }
 
-    #MainMenu {
-        visibility: hidden;
-    }
-
-    footer {
+    #MainMenu, footer {
         visibility: hidden;
     }
 
@@ -73,23 +72,196 @@ st.markdown(
         background: transparent;
     }
 
+    /* ---------- TYPOGRAPHY ---------- */
+
+    h1 {
+        letter-spacing: -1.4px;
+        color: #111827;
+    }
+
+    h2, h3 {
+        color: #172033;
+    }
+
+    p {
+        line-height: 1.65;
+    }
+
+    /* ---------- INPUTS ---------- */
+
     div[data-testid="stTextInput"] input,
     div[data-testid="stNumberInput"] input {
-        min-height: 48px;
-        border-radius: 12px;
+        min-height: 50px;
+        border-radius: 14px;
+        border: 1px solid #dbe3ec;
+        background: #ffffff;
     }
 
     div[data-baseweb="select"] > div {
-        min-height: 48px;
-        border-radius: 12px;
+        min-height: 50px;
+        border-radius: 14px;
+        border-color: #dbe3ec;
+        background: #ffffff;
     }
 
+    div[data-testid="stTextInput"] input:focus,
+    div[data-testid="stNumberInput"] input:focus {
+        border-color: #14b8a6;
+        box-shadow: 0 0 0 1px #14b8a6;
+    }
+
+    /* ---------- BUTTONS ---------- */
+
     .stButton > button {
-        min-height: 50px;
+        min-height: 52px;
+        border-radius: 14px;
+        font-weight: 800;
+        padding-left: 1.6rem;
+        padding-right: 1.6rem;
+        transition: all 0.18s ease;
+    }
+
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(
+            90deg,
+            #0f766e 0%,
+            #0d9488 45%,
+            #2563eb 100%
+        );
+        color: white;
+        border: 0;
+        box-shadow: 0 8px 22px rgba(13,148,136,0.20);
+    }
+
+    .stButton > button[kind="primary"]:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 11px 26px rgba(37,99,235,0.22);
+    }
+
+    .stLinkButton > a {
         border-radius: 12px;
         font-weight: 700;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+    }
+
+    /* ---------- CARDS ---------- */
+
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 18px;
+        border-color: #e2e8f0;
+        background: rgba(255,255,255,0.94);
+        box-shadow: 0 5px 20px rgba(15,23,42,0.05);
+    }
+
+    /* ---------- ALERTS ---------- */
+
+    div[data-testid="stAlert"] {
+        border-radius: 14px;
+    }
+
+    /* ---------- CATEGORY STRIP ---------- */
+
+    .category-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin: 20px 0 28px 0;
+    }
+
+    .category-tile {
+        padding: 16px;
+        border-radius: 17px;
+        font-weight: 800;
+        text-align: center;
+        box-shadow: 0 5px 18px rgba(15,23,42,0.05);
+    }
+
+    .grocery-tile {
+        background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+        color: #166534;
+    }
+
+    .electronics-tile {
+        background: linear-gradient(135deg, #111827, #334155);
+        color: #ffffff;
+    }
+
+    .women-tile {
+        background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+        color: #be185d;
+    }
+
+    .men-tile {
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        color: #1d4ed8;
+    .sports-tile {
+        background: linear-gradient(135deg, #ffedd5, #fed7aa);
+        color: #c2410c;
+}
+
+    .footwear-tile {
+        background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+        color: #6d28d9;
+}
+    .home-tile {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        color: #92400e;
+}
+
+    .beauty-tile {
+        background: linear-gradient(135deg, #fae8ff, #f5d0fe);
+        color: #a21caf;
+}
+
+    /* ---------- RETAILER BADGES ---------- */
+
+    .retailer-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 8px;
+        margin-bottom: 12px;
+    }
+
+    .retailer-badge {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 999px;
+        padding: 7px 13px;
+        font-size: 0.86rem;
+        font-weight: 750;
+        box-shadow: 0 3px 10px rgba(15,23,42,0.04);
+    }
+
+    /* ---------- HERO ---------- */
+    .bidcart-hero {
+        padding: 30px 32px;
+        border-radius: 24px;
+        background: linear-gradient(
+            120deg,
+            rgba(236,253,245,0.98),
+            rgba(239,246,255,0.98)
+        );
+        border: 1px solid #dbeafe;
+        box-shadow: 0 10px 35px rgba(15,23,42,0.06);
+        margin-bottom: 20px;
+    }
+
+    .bidcart-brand {
+        font-size: 1.15rem;
+        font-weight: 900;
+        color: #0f766e;
+    }
+
+    .bidcart-tag {
+        display: inline-block;
+        margin-top: 7px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: #ccfbf1;
+        color: #115e59;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.8px;
     }
 
     </style>
@@ -101,24 +273,28 @@ st.markdown(
 # BRAND
 # ---------------------------------------------------------
 
-st.markdown("### 🛒 BidCart")
-
-st.caption("AGENTIC COMMERCE INTELLIGENCE")
-
 st.markdown(
     """
-    # Don't just find a product.
-    # **Know if it's actually a good deal.**
-    """
+<div class="bidcart-hero">
+<div class="bidcart-brand">🛒 BidCart</div>
+<div class="bidcart-tag">AGENTIC COMMERCE INTELLIGENCE</div>
+<h1>Shop smarter. Pay smarter.</h1>
+<p style="font-size:1.08rem;color:#475569;">Compare products, validated market prices, customer evidence and payment economics before you buy.</p>
+</div>
+
+<div class="category-strip">
+<div class="category-tile grocery-tile">🥬 Groceries</div>
+<div class="category-tile electronics-tile">🎧 Electronics</div>
+<div class="category-tile women-tile">👗 Women's Fashion</div>
+<div class="category-tile men-tile">👕 Men's Fashion</div>
+<div class="category-tile sports-tile">🏏 Sports & Fitness</div>
+<div class="category-tile footwear-tile">👟 Footwear</div>
+<div class="category-tile home-tile">🏠 Home & Kitchen</div>
+<div class="category-tile beauty-tile">💄 Beauty & Personal Care</div>
+</div>
+    """,
+    unsafe_allow_html=True,
 )
-
-st.write(
-    "BidCart independently evaluates price history, customer evidence "
-    "and payment economics before you buy."
-)
-
-st.divider()
-
 # ---------------------------------------------------------
 # COMMERCE SEARCH
 # ---------------------------------------------------------
@@ -195,7 +371,37 @@ with retailer_col:
 
     retailers = get_retailers(category)
 
-    st.write(" · ".join(retailers))
+    retailer_styles = {
+    "Amazon": ("🟠", "#fff7ed", "#9a3412"),
+    "Flipkart": ("🟡", "#eff6ff", "#1d4ed8"),
+    "Croma": ("🟢", "#ecfdf5", "#047857"),
+    "Reliance Digital": ("🔵", "#eff6ff", "#1e40af"),
+    "Myntra": ("🩷", "#fdf2f8", "#be185d"),
+    "AJIO": ("⚫", "#f8fafc", "#111827"),
+    "Blinkit": ("🟡", "#fefce8", "#854d0e"),
+    "Zepto": ("🟣", "#faf5ff", "#7e22ce"),
+    "Swiggy Instamart": ("🟠", "#fff7ed", "#c2410c"),
+    "BigBasket": ("🟢", "#f0fdf4", "#15803d"),
+}
+
+retailer_badges = ""
+
+for retailer in retailers:
+    icon, bg, colour = retailer_styles.get(
+        retailer,
+        ("🛍️", "#f8fafc", "#334155"),
+    )
+
+    retailer_badges += (
+        f'<span class="retailer-badge" '
+        f'style="background:{bg}; color:{colour};">'
+        f'{icon} {retailer}</span>'
+    )
+
+st.markdown(
+    f'<div class="retailer-row">{retailer_badges}</div>',
+    unsafe_allow_html=True,
+)
 
 st.markdown("")
 
@@ -371,7 +577,6 @@ if st.session_state.screen == "results":
         "Official offer terms link",
         placeholder="Paste bank or retailer offer URL",
     )
-    st.stop()
     offer1, offer2, offer3 = st.columns(3)
 
     with offer1:
