@@ -7,7 +7,10 @@ from retailers import Offer, get_retailers
 from price_history import record_price
 
 BRIGHTDATA_API_KEY = os.environ.get("BRIGHTDATA_API_KEY")
-COMMERCE_DATABASE = "bidcart_commerce.db"
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+COMMERCE_DATABASE = BASE_DIR / "bidcart_commerce.db"
 def search_market(product, category):
     """
     Search all relevant retailers for a product.
